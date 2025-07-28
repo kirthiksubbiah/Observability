@@ -1,0 +1,87 @@
+### 1. Cost of Downtime
+
+- The global average cost of downtime is approximately $150,000 per hour.
+- Downtime affects not only revenue but also damages brand trust and user experience.
+
+### 2. Observability vs Monitoring
+
+| Monitoring               | Observability                         |
+|--------------------------|----------------------------------------|
+| Identifies what is wrong | Helps understand why it is wrong       |
+| Uses metrics and alerts  | Utilizes logs, metrics, and traces     |
+| Reactive                 | Diagnostic and proactive               |
+
+*Example:* Monitoring is like a car dashboard; observability is like a full diagnostic system.
+
+### 3. Golden Signals (SRE)
+
+1. **Traffic** – Number of requests.  
+2. **Errors** – Failed or problematic transactions.  
+3. **Latency** – Response time.  
+4. **Saturation** – System load or capacity.
+
+### 4. SRE Concepts
+
+- **MTTD** (Mean Time to Detect) and **MTTR** (Mean Time to Repair) are critical for system reliability.
+- A high rate of recurring incidents suggests poor root cause analysis and excessive manual work.
+
+### 5. Instrumentation
+
+- Collect telemetry data at the code level, manually or using tools like OpenTelemetry.
+- Enables detailed performance insights across services.
+
+### 6. Core Pillars of Observability
+
+| Data Type | Purpose                                        |
+|-----------|------------------------------------------------|
+| Metrics   | Quantitative data over time (e.g., CPU usage) |
+| Logs      | Timestamped event records (e.g., errors)      |
+| Traces    | Request lifecycle across services             |
+
+### 7. OpenTelemetry
+
+- Vendor-neutral standard for collecting logs, metrics, and traces.
+- Enables consistent instrumentation across platforms.
+
+### 8. Topology and Service Maps
+
+- Visualize service dependencies and interactions.
+- Identify failure points and performance bottlenecks.
+
+### 9. Anomaly Detection
+
+- Uses ML to detect abnormal patterns in metrics or behavior.
+- Detects issues like traffic surges or error spikes before user impact.
+
+### 10. Observability Maturity Model
+
+| Level | Name                    | Description                                              |
+|-------|-------------------------|----------------------------------------------------------|
+| 1     | Monitoring              | Basic metrics and alerting                               |
+| 2     | Observability           | Unified logs, metrics, and traces                        |
+| 3     | Causal Observability    | Ability to identify root causes and full service flow    |
+| 4     | Proactive Observability | Predictive, automated detection and issue resolution     |
+
+## Stakeholder Use Cases
+
+| Role          | Application                                    |
+|---------------|------------------------------------------------|
+| Developers    | Debugging and performance tuning              |
+| SREs          | Service level management and automation       |
+| Architects    | Visualize dependencies and optimize design    |
+| Business Team | SLA tracking and impact visibility            |
+
+## Key Takeaways
+
+- Observability enables in-depth root cause analysis beyond alerts.
+- Faster MTTD leads to faster MTTR and reduced downtime.
+- OpenTelemetry is becoming the industry standard.
+- Tools like service maps and anomaly detection are essential in modern observability.
+- A mature observability approach allows for proactive and automated issue handling.
+
+## Next Steps
+
+- Begin using tools like Prometheus, Grafana, Jaeger, or OpenTelemetry.
+- Apply Golden Signal monitoring in your environment.
+- Reduce MTTR through automation and better diagnostics.
+- Standardize telemetry collection across teams and platforms.
