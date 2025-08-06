@@ -1,74 +1,98 @@
-SRE Requirements for Metrics Data
-What is Prometheus?
-Prometheus is an open-source monitoring and alerting toolkit widely used for cloud-native observability. It works by scraping metrics from applications at regular intervals, storing them in a time-series database, and allowing you to query this data with PromQL (Prometheus Query Language). It's commonly paired with Grafana for visualization and Alertmanager for handling alerts.
+# SRE Learning Log - Metrics Data Requirements
 
-Prometheus Metric Types
-Prometheus defines several metric types to handle different kinds of data:
+## What is Prometheus?
 
-Counter: A cumulative value that only ever increases. It's used for things like the total number of requests served. You can use the rate() function to calculate a counter's rate of increase over time.
+Prometheus is an open-source monitoring and alerting toolkit widely used for cloud-native observability. It:
 
-Gauge: A metric that can go up and down, like the current CPU utilization or temperature.
+- Scrapes metrics from applications at regular intervals.
+- Stores them in a time-series database.
+- Allows you to query this data using PromQL (Prometheus Query Language).
+- Is often paired with Grafana for visualization and Alertmanager for alerts.
 
-Summary: Captures percentiles (e.g., 95th percentile latency) and a count of observations. It's useful for measuring performance characteristics.
+---
 
-Histogram: Similar to a Summary, it groups values into configurable buckets. This is ideal for analyzing the distribution of latency or response times.
+## Prometheus Metric Types
 
-SRE Expectations for Application Metrics
-For an application to be considered well-instrumented by SRE standards, it should:
+| Metric Type | Description | Example Use Case |
+|-------------|-------------|------------------|
+| Counter     | A cumulative value that only increases. | Total number of HTTP requests. Use `rate()` to get the rate over time. |
+| Gauge       | A metric that can go up and down. | CPU usage, memory consumption, temperature. |
+| Summary     | Captures percentiles (e.g., 95th percentile latency) and count of observations. | Track request latency distribution. |
+| Histogram   | Groups values into configurable buckets. Also good for percentiles. | Analyze latency or response time distributions. |
 
-Emit metrics that are aligned with your Service Level Indicators (SLIs), such as latency, error rates, and availability.
+---
 
-Include metrics from all critical components of the system.
+## SRE Expectations for Application Metrics
 
-Expose informational metrics like the application's build version and deployment environment.
+To meet SRE instrumentation standards, your application should:
 
-Avoid high-cardinality labels (e.g., user IDs or session IDs) to prevent performance issues in Prometheus.
+- Emit metrics aligned with Service Level Indicators (SLIs) such as latency, error rate, and availability.
+- Include metrics from all critical system components.
+- Expose informational metrics, such as build version or deployment environment.
+- Avoid high-cardinality labels (e.g., user ID, session ID) to prevent Prometheus performance issues.
 
-Node Exporter
-The Node Exporter is a tool that collects host-level metrics from a server, like CPU load, memory usage, disk I/O, and filesystem statistics. Prometheus scrapes this data from the exporter's endpoint to provide insights into the underlying infrastructure.
+---
 
-Alerting in SRE
-A good alert in an SRE context should be:
+## Node Exporter
 
-Precise: It should not fire for non-issues.
+Node Exporter is a Prometheus exporter that collects host-level metrics such as:
 
-Reliable: It should catch actual problems consistently.
+- CPU load
+- Memory usage
+- Disk I/O
+- Filesystem statistics
 
-Timely: It should fire quickly when an issue arises.
+Prometheus scrapes these metrics from the Node Exporter endpoint to gain visibility into infrastructure performance.
 
-Self-resolving: It should automatically resolve once the issue is fixed.
+---
 
-Burn Rate-Based Alerting
-Burn rate is a key concept in SRE alerting. It measures how fast you're consuming your error budget.
+## Alerting in SRE
 
-A burn rate of 1 means you're consuming your error budget at the normal rate.
+A good alert in an SRE environment should be:
 
-A burn rate of 10 means you're consuming your budget 10 times faster than normal, suggesting you'll run out of budget in about 3 days.
+- Precise: It should not fire for non-issues.
+- Reliable: It should consistently catch real issues.
+- Timely: It should fire quickly when a problem occurs.
+- Self-resolving: It should clear automatically once the issue is resolved.
 
-Recommended burn rate alerts include:
+---
 
-Pager Alerts: For critical issues, fire an alert when the burn rate is greater than 14.4 over short (e.g., 5-minute) and long (e.g., 1-hour) time windows.
+## Burn Rate-Based Alerting
 
-Ticket Alerts: For less urgent issues, create a ticket when the burn rate is greater than 3 over 2-hour and 24-hour windows.
+Burn rate measures how fast your service is consuming its error budget:
 
-Using both short and long time windows helps detect sudden spikes in errors as well as slow, gradual degradations.
+- A burn rate of 1 means normal consumption.
+- A burn rate of 10 means the error budget will be exhausted 10 times faster than expected.
 
-Alerting Best Practices
-Use multiple time windows for more accurate alerting.
+### Recommended Burn Rate Alerts
 
-Pre-compute key metrics to simplify your alerting rules.
+| Alert Type   | Burn Rate Threshold | Time Windows            |
+|--------------|---------------------|--------------------------|
+| Pager Alert  | Greater than 14.4    | 5 minutes and 1 hour     |
+| Ticket Alert | Greater than 3       | 2 hours and 24 hours     |
 
-Tune your alert thresholds carefully to avoid alert fatigue.
+Using both short and long time windows helps detect both sudden spikes and gradual performance degradations.
 
-Test your alerts by simulating failures.
+---
 
-Observability and Incident Management
-An effective observability stack is built on several key tools:
+## Alerting Best Practices
 
-Prometheus for metric scraping and storage.
+- Use multiple time windows for improved accuracy.
+- Pre-compute key metrics to simplify alert rules.
+- Tune thresholds to reduce alert fatigue.
+- Test alerts by simulating real failure scenarios.
 
-Grafana for dashboarding and data visualization.
+---
 
-Alertmanager for routing alerts and notifications.
+## Observability and Incident Management Stack
 
-For incident management, tools like Opsgenie and PagerDuty are used for on-call scheduling, automated workflows, and escalating alerts.
+| Tool         | Purpose                                |
+|--------------|----------------------------------------|
+| Prometheus   | Metrics collection and storage         |
+| Grafana      | Visualization and dashboards           |
+| Alertmanager | Alert routing and deduplication        |
+| PagerDuty / Opsgenie | On-call management and incident automation |
+
+---
+
+This document is part of my daily SRE/Observability learning notes.
